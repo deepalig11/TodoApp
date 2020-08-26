@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import FlatList from 'flatlist-react';
+import ListGroup from 'react-bootstrap/ListGroup';
 import './App.css';
 
 function App() {
@@ -10,8 +11,9 @@ function App() {
     event.preventDefault();
     console.log(xyz);
     // list.push({ task: xyz });
-    todoarray.push({ task: xyz });
+    todoarray.push({ key: Math.random(), task: xyz });
     // todoarray = list;
+    // localStorage.setItem(todoarray);
     console.log(todoarray);
     abc('');
   };
@@ -42,11 +44,23 @@ function App() {
           <input id="todo" type="text" value={xyz} onChange={myChangeHandler} />
           <button onClick={pusharray}>Save</button>
         </form>
-        <FlatList
-          list={todoarray[{ value: 2 }, { value: 0 }, { value: '' }]}
+        {/* <FlatList
+          list={todoarray}
           renderItem={renderList}
           renderWhenEmpty={() => <div>No task available</div>}
-        />
+        /> */}
+        <ListGroup>
+          {todoarray.map(item => {
+            return (
+
+              <ListGroup.Item variant="dark"
+              // onClick={() => this.deleteItem(item.id)}
+              >
+                {todoarray.value}
+              </ListGroup.Item>
+            )
+          })}
+        </ListGroup>
       </header>
 
 
