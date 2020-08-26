@@ -1,19 +1,33 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
+import FlatList from 'flatlist-react';
 import './App.css';
 
 function App() {
-  let todoarray = [{ id: '', task: '' }]
-  const [xyz, abc] = useState('s');
-  function pusharray() {
+
+  const [todoarray] = useState([]);
+  const [xyz, abc] = useState('');
+  const pusharray = (event) => {
+    event.preventDefault();
     console.log(xyz);
-    todoarray.push({ id: '0', task: xyz });
+    // list.push({ task: xyz });
+    todoarray.push({ task: xyz });
+    // todoarray = list;
+    console.log(todoarray);
+    abc('');
   };
   const myChangeHandler = (event) => {
     abc(event.target.value);
-    todoarray.push(xyz);
+
 
   }
+  const renderList = (list) => {
+    return (
+      <li key={list.id}>
+        <b>{list.value}</b>
+      </li>
+    );
+  }
+
 
 
 
@@ -22,14 +36,20 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>TO-DO Application</h1>
+
         <form>
           <p>Task</p>
           <input id="todo" type="text" value={xyz} onChange={myChangeHandler} />
           <button onClick={pusharray}>Save</button>
         </form>
-
-
+        <FlatList
+          list={todoarray[{ value: 2 }, { value: 0 }, { value: '' }]}
+          renderItem={renderList}
+          renderWhenEmpty={() => <div>No task available</div>}
+        />
       </header>
+
+
     </div>
   );
 }
