@@ -8,6 +8,8 @@ function App() {
 
   const [todoarray, funcArray] = useState([]);
   const [text, setText] = useState('');
+  const [tag, setTag] = useState('');
+  const [tagArray, setTagArray] = useState([]);
 
   const pusharray = (event) => {
     event.preventDefault();
@@ -31,8 +33,21 @@ function App() {
   };
 
 
-  const myChangeHandler = (event) => {
-    setText(event.target.value);
+  const myTagHandler = (event) => {
+    setTag(event.target.value);
+    const str = (event.target.value).toLowerCase();
+    let list1 = [];
+    if (event.target.value === null) {
+      list1 = JSON.parse(localStorage.getItem("record"));
+    }
+    else {
+      const list = JSON.parse(localStorage.getItem("record"));
+      list1 = list.filter(item => {
+        const l1 = item.task.toLowerCase();
+        return l1.includes(str);
+      });
+    }
+    funcArray(list1);
   }
 
   useEffect(() => {
@@ -68,6 +83,19 @@ function App() {
     funcArray([]);
   }
 
+  const hashTag = (event) => {
+    event.preventDefault();
+    if (tag.length !== 0) {
+      const arr = [...tagArray];
+      arr.push({ tagValue: tag })
+      setTagArray(arr);
+      setTag('');
+    }
+
+    console.log(tagArray);
+  };
+
+
 
 
 
@@ -79,9 +107,11 @@ function App() {
         <button onClick={resetList}>Reset</button>
         <form>
           <p>Task</p>
-          <input id="todo" type="text" value={text} onChange={myChangeHandler} />
-
+          <input id="todo" type="text" value={text} onChange={(event) => { setText(event.target.value) }} />
           <button onClick={pusharray}>Save</button>
+          <br />
+          <input id="createHashtags" type="text" value={tag} onChange={myTagHandler} />
+          <button onClick={hashTag}>Create Hashtag</button>
         </form>
         <ListGroup>
           {todoarray.map(item => {
@@ -114,8 +144,14 @@ function App() {
             )
           })}
         </ListGroup>
+        {
+          tagArray.map((item) => {
+            return (
+              <button onClick={myTagHandler}>{item.tagValue}</button>
+            );
 
-
+          })
+        }
       </header>
 
 
