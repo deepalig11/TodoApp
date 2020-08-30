@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Card from 'react-bootstrap/Card'
+import List from './component/List/List';
+import Header from './component/Header/Header';
 
 import './App.css';
 
@@ -35,19 +37,19 @@ function App() {
 
   const myTagHandler = (event) => {
     setTag(event.target.value);
-    const str = (event.target.value).toLowerCase();
-    let list1 = [];
-    if (event.target.value === null) {
-      list1 = JSON.parse(localStorage.getItem("record"));
-    }
-    else {
-      const list = JSON.parse(localStorage.getItem("record"));
-      list1 = list.filter(item => {
-        const l1 = item.task.toLowerCase();
-        return l1.includes(str);
-      });
-    }
-    funcArray(list1);
+    // const str = (event.target.value).toLowerCase();
+    // let list1 = [];
+    // if (event.target.value === null) {
+    //   list1 = JSON.parse(localStorage.getItem("record"));
+    // }
+    // else {
+    //   const list = JSON.parse(localStorage.getItem("record"));
+    //   list1 = list.filter(item => {
+    //     const l1 = item.task.toLowerCase();
+    //     return l1.includes(str);
+    //   });
+    // }
+    // funcArray(list1);
   }
 
   useEffect(() => {
@@ -95,64 +97,56 @@ function App() {
     console.log(tagArray);
   };
 
+  const textHandler = (event) => {
+    setText(event.target.value);
+  }
 
+  const showFilteredTask = (str) => {
+
+    str = str.toLowerCase();
+    console.log(str);
+
+    const list = [...todoarray];
+    const list1 = list.filter(item => {
+      const l1 = item.task.toLowerCase();
+      return l1.includes(str);
+    });
+
+    funcArray(list1);
+
+  }
 
 
 
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>TO-DO Application</h1>
-        <button onClick={resetList}>Reset</button>
-        <form>
-          <p>Task</p>
-          <input id="todo" type="text" value={text} onChange={(event) => { setText(event.target.value) }} />
-          <button onClick={pusharray}>Save</button>
-          <br />
-          <input id="createHashtags" type="text" value={tag} onChange={myTagHandler} />
-          <button onClick={hashTag}>Create Hashtag</button>
-        </form>
-        <ListGroup>
-          {todoarray.map(item => {
-            return (
-              <>
-                {item.status === 0 ?
-                  <ListGroup.Item variant="dark" key={item.key}
-                    onClick={() => { changeStatus(item.key) }}>
-                    <Card className="cardlist">
-                      {item.task}
-                    </Card>
-                  </ListGroup.Item>
-                  : null}
-              </>
-            )
-          })}
-        </ListGroup>
-        <h2>Completed</h2>
-        <ListGroup>
-          {todoarray.filter(item => item.status !== 0).sort((a, b) => { return b.status - a.status }).map(item => {
-            return (
-              <>
-                <ListGroup.Item variant="dark" key={item.key}
-                  onClick={() => { changeStatus(item.key) }}>
-                  <Card className="cardlist">
-                    {item.task}
-                  </Card>
-                </ListGroup.Item>
-              </>
-            )
-          })}
-        </ListGroup>
-        {
-          tagArray.map((item) => {
-            return (
-              <button onClick={myTagHandler}>{item.tagValue}</button>
-            );
 
-          })
-        }
-      </header>
+      <Header
+        resetList={resetList}
+        pusharray={pusharray}
+        myTagHandler={myTagHandler}
+        hashTag={hashTag}
+        textHandler={textHandler}
+        text={text}
+        tag={tag}
+      />
+      <List array={todoarray.filter(items => items.status === 0)}
+        changeStatus={changeStatus}
+        word={tag} />
+      <h2>Completed</h2>
+      <List array={todoarray.filter(item => item.status !== 0).sort((a, b) => { return b.status - a.status })}
+        changeStatus={changeStatus}
+        word={tag} />
+      {
+        tagArray.map((item) => {
+          return (
+            <button onClick={() => { showFilteredTask(item.tagValue) }}>{item.tagValue}</button>
+          );
+
+        })
+      }
+
 
 
     </div >
