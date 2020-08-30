@@ -5,7 +5,7 @@ import { ListGroup, Card } from 'react-bootstrap';
 
 const List = (props) => {
     let x = props.word;
-    return (<ListGroup>
+    return (<ListGroup style={{ textAlign: "center" }}>
         {props.array.map(item => {
             return (
                 <>

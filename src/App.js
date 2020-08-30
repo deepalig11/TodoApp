@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
-import Card from 'react-bootstrap/Card'
 import List from './component/List/List';
 import Header from './component/Header/Header';
 
@@ -121,34 +120,35 @@ function App() {
 
   return (
     <div className="App">
+      <header className="App-header">
+        <Header
+          resetList={resetList}
+          pusharray={pusharray}
+          myTagHandler={myTagHandler}
+          hashTag={hashTag}
+          textHandler={textHandler}
+          text={text}
+          tag={tag}
+        />
 
-      <Header
-        resetList={resetList}
-        pusharray={pusharray}
-        myTagHandler={myTagHandler}
-        hashTag={hashTag}
-        textHandler={textHandler}
-        text={text}
-        tag={tag}
-      />
-      <List array={todoarray.filter(items => items.status === 0)}
-        changeStatus={changeStatus}
-        word={tag} />
-      <h2>Completed</h2>
-      <List array={todoarray.filter(item => item.status !== 0).sort((a, b) => { return b.status - a.status })}
-        changeStatus={changeStatus}
-        word={tag} />
-      {
-        tagArray.map((item) => {
-          return (
-            <button onClick={() => { showFilteredTask(item.tagValue) }}>{item.tagValue}</button>
-          );
+        <List array={todoarray.filter(items => items.status === 0)}
+          changeStatus={changeStatus}
+          word={tag} />
+        <h2 style={{ textAlign: "center" }}>Completed</h2>
+        <List array={todoarray.filter(item => item.status !== 0).sort((a, b) => { return b.status - a.status })}
+          changeStatus={changeStatus}
+          word={tag} />
+        {
+          tagArray.map((item) => {
+            return (
+              <button onClick={() => { showFilteredTask(item.tagValue) }}>{item.tagValue}</button>
+            );
 
-        })
-      }
+          })
+        }
 
 
-
+      </header>
     </div >
   );
 }
