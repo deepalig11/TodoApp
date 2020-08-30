@@ -101,7 +101,7 @@ function App() {
   }
 
   const showFilteredTask = (str) => {
-
+    document.getElementById(str).style.backgroundColor = "rgb(128, 0, 128)";
     str = str.toLowerCase();
     console.log(str);
 
@@ -130,7 +130,14 @@ function App() {
           text={text}
           tag={tag}
         />
+        {
+          tagArray.map((item) => {
+            return (
+              <button id={item.tagValue} onClick={() => { showFilteredTask(item.tagValue) }} >{item.tagValue}</button>
+            );
 
+          })
+        }
         <List array={todoarray.filter(items => items.status === 0)}
           changeStatus={changeStatus}
           word={tag} />
@@ -138,14 +145,7 @@ function App() {
         <List array={todoarray.filter(item => item.status !== 0).sort((a, b) => { return b.status - a.status })}
           changeStatus={changeStatus}
           word={tag} />
-        {
-          tagArray.map((item) => {
-            return (
-              <button onClick={() => { showFilteredTask(item.tagValue) }}>{item.tagValue}</button>
-            );
 
-          })
-        }
 
 
       </header>

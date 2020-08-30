@@ -1,6 +1,7 @@
 import React from 'react';
 import Highlighter from "react-highlight-words";
 import { ListGroup, Card } from 'react-bootstrap';
+import './List.css';
 
 
 const List = (props) => {
@@ -9,11 +10,8 @@ const List = (props) => {
         {props.array.map(item => {
             return (
                 <>
-                    <ListGroup.Item variant="dark" key={item.key}
+                    <ListGroup.Item key={item.key} className="cardlist"
                         onClick={() => { props.changeStatus(item.key) }}>
-                        {/* <Card className="cardlist">
-                            {item.task}
-                        </Card> */}
                         <Highlighter
                             searchWords={[x]}
                             autoEscape={true}
