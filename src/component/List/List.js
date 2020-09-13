@@ -1,6 +1,6 @@
 import React from 'react';
 import Highlighter from "react-highlight-words";
-import { ListGroup, Card } from 'react-bootstrap';
+import { ListGroup } from 'react-bootstrap';
 import './List.css';
 
 
